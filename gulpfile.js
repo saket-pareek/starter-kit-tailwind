@@ -21,7 +21,7 @@ gulp.task('copy-tailwind-dep', function() {
 		// 		content: ['src/**/*.html']
 		// 	})
 		// )
-		.pipe(cssnano())
+		// .pipe(cssnano())
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
 });
@@ -99,7 +99,7 @@ gulp.task('copy-scss-files', function() {
 				content: ['src/**/*.html']
 			})
 		)
-		.pipe(cssnano())
+		// .pipe(cssnano())
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
 });

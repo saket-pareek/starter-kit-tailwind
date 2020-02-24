@@ -5,7 +5,7 @@ const imageMin = require('gulp-imagemin'); // Not using it, that's why discolore
 const plumber = require('gulp-plumber'); // Handling errors
 const postcss = require('gulp-postcss'); // Required for tailwind, also has bunch of plugins like autoprefixer (used for other browsers)
 const tailwindcss = require('tailwindcss'); // CSS framework
-const cssnano = require('cssnano'); // Minify css files
+const cssnano = require('gulp-cssnano'); // Minify css files
 const purgecss = require('gulp-purgecss'); // Delete classes that are not used in html files
 
 /* -------------------------------------------------------------------------- */
@@ -22,7 +22,7 @@ gulp.task('copy-tailwind-dep', function() {
 				content: ['src/**/*.html']
 			})
 		)
-		// .pipe(cssnano())
+		.pipe(cssnano())
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
 });
@@ -100,7 +100,7 @@ gulp.task('copy-scss-files', function() {
 				content: ['src/**/*.html']
 			})
 		)
-		// .pipe(cssnano())
+		.pipe(cssnano())
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
 });

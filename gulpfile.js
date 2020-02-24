@@ -1,7 +1,6 @@
 const gulp = require('gulp'); // Task runner
 const browserSync = require('browser-sync').create(); // Sync on browser after functions
 const sass = require('gulp-sass'); // Convert sass file to css files
-const imageMin = require('gulp-imagemin'); // Not using it, that's why discolored text
 const plumber = require('gulp-plumber'); // Handling errors
 const postcss = require('gulp-postcss'); // Required for tailwind, also has bunch of plugins like autoprefixer (used for other browsers)
 const tailwindcss = require('tailwindcss'); // CSS framework

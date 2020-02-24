@@ -16,11 +16,11 @@ gulp.task('copy-tailwind-dep', function() {
 	gulp.src('src/css/tailwind.css')
 		.pipe(plumber())
 		.pipe(postcss([tailwindcss('./src/js/tailwind.js'), require('autoprefixer')]))
-		.pipe(
-			purgecss({
-				content: ['src/**/*.html']
-			})
-		)
+		// .pipe(
+		// 	purgecss({
+		// 		content: ['src/**/*.html']
+		// 	})
+		// )
 		.pipe(cssnano())
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
@@ -30,11 +30,11 @@ gulp.task('copy-tailwind-dep', function() {
 gulp.task('copy-font-awesome-dep', function() {
 	gulp.src(['node_modules/@fortawesome/fontawesome-free/css/all.min.css'])
 		.pipe(gulp.dest('src/css'))
-		.pipe(
-			purgecss({
-				content: ['src/**/*.html']
-			})
-		)
+		// .pipe(
+		// 	purgecss({
+		// 		content: ['src/**/*.html']
+		// 	})
+		// )
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
 });

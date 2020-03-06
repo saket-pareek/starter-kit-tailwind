@@ -15,7 +15,7 @@ const purgecss = require('gulp-purgecss'); // Delete classes that are not used i
 gulp.task('copy-tailwind-dep', function() {
 	gulp.src('src/css/tailwind.css')
 		.pipe(plumber())
-		.pipe(postcss([tailwindcss('./src/js/tailwind.js'), require('autoprefixer')]))
+		.pipe(postcss([tailwindcss('./src/js/tailwind.config.js'), require('autoprefixer')]))
 		// .pipe(
 		// 	purgecss({
 		// 		content: ['src/**/*.html']
@@ -27,17 +27,17 @@ gulp.task('copy-tailwind-dep', function() {
 });
 
 // Copy font-awesome css dependency from node_modules to src/css to dist/css
-gulp.task('copy-font-awesome-dep', function() {
-	gulp.src(['node_modules/@fortawesome/fontawesome-free/css/all.min.css'])
-		.pipe(gulp.dest('src/css'))
-		// .pipe(
-		// 	purgecss({
-		// 		content: ['src/**/*.html']
-		// 	})
-		// )
-		.pipe(gulp.dest('dist/css'))
-		.pipe(browserSync.stream());
-});
+// gulp.task('copy-font-awesome-dep', function() {
+// 	gulp.src(['node_modules/@fortawesome/fontawesome-free/css/all.min.css'])
+// 		.pipe(gulp.dest('src/css'))
+// 		// .pipe(
+// 		// 	purgecss({
+// 		// 		content: ['src/**/*.html']
+// 		// 	})
+// 		// )
+// 		.pipe(gulp.dest('dist/css'))
+// 		.pipe(browserSync.stream());
+// });
 
 /* -------------------------------------------------------------------------- */
 /*                               JS DEPENDENCIES                              */
@@ -113,7 +113,7 @@ gulp.task('watch-all', function() {
 		server: './dist'
 	});
 
-	gulp.watch('src/js/tailwind.js', ['copy-tailwind-dep']);
+	gulp.watch('src/js/tailwind.config.js', ['copy-tailwind-dep']);
 	gulp.watch('src/css/tailwind.css', ['copy-tailwind-dep']);
 	gulp.watch('src/*.html', ['copy-html-files']);
 	gulp.watch('src/scss/**/*.scss', ['copy-scss-files']);
@@ -128,7 +128,6 @@ gulp.task('watch-all', function() {
 gulp.task('default', [
 	'copy-jquery-dep',
 	'copy-tailwind-dep',
-	'copy-font-awesome-dep',
 	'copy-jquery-dep',
 	'copy-html-files',
 	'copy-scss-files',

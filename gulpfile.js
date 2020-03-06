@@ -43,10 +43,9 @@ gulp.task('copy-tailwind-dep', function() {
 /*                               JS DEPENDENCIES                              */
 /* -------------------------------------------------------------------------- */
 
-// Copy jquery dependencies from node_modules to src/js to dist/js
+// Copy jquery dependencies from node_modules to dist/js
 gulp.task('copy-jquery-dep', function() {
 	gulp.src('node_modules/jquery/dist/jquery.min.js')
-		.pipe(gulp.dest('src/js'))
 		.pipe(gulp.dest('dist/js'))
 		.pipe(browserSync.stream());
 });

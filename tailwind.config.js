@@ -1,10 +1,11 @@
 module.exports = {
 	corePlugins: {
-		container: false
+		container: false,
 	},
+	purge: [],
 	theme: {
-		extend: {}
+		extend: {},
 	},
 	variants: {},
-	plugins: []
+	plugins: [],
 };

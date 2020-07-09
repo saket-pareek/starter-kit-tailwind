@@ -12,10 +12,10 @@ const purgecss = require('gulp-purgecss'); // Delete classes that are not used i
 /* -------------------------------------------------------------------------- */
 
 // Copy tailwind dependency from node_modoules to src/css to dist/css
-gulp.task('copy-tailwind-dep', function() {
-	gulp.src('src/css/tailwind.css')
+gulp.task('copy-tailwind-dep', function () {
+	gulp.src('src/vendors/tailwind.css')
 		.pipe(plumber())
-		.pipe(postcss([tailwindcss('./src/js/tailwind.config.js'), require('autoprefixer')]))
+		.pipe(postcss([tailwindcss('./tailwind.config.js'), require('autoprefixer')]))
 		// .pipe(
 		// 	purgecss({
 		// 		content: ['src/**/*.html']
@@ -26,40 +26,13 @@ gulp.task('copy-tailwind-dep', function() {
 		.pipe(browserSync.stream());
 });
 
-// Copy font-awesome css dependency from node_modules to src/css to dist/css
-// gulp.task('copy-font-awesome-dep', function() {
-// 	gulp.src(['node_modules/@fortawesome/fontawesome-free/css/all.min.css'])
-// 		.pipe(gulp.dest('src/css'))
-// 		// .pipe(
-// 		// 	purgecss({
-// 		// 		content: ['src/**/*.html']
-// 		// 	})
-// 		// )
-// 		.pipe(gulp.dest('dist/css'))
-// 		.pipe(browserSync.stream());
-// });
-
-/* -------------------------------------------------------------------------- */
-/*                               JS DEPENDENCIES                              */
-/* -------------------------------------------------------------------------- */
-
-// Copy jquery dependencies from node_modules to dist/js
-gulp.task('copy-jquery-dep', function() {
-	gulp.src('node_modules/jquery/dist/jquery.min.js')
-		.pipe(gulp.dest('dist/js'))
-		.pipe(browserSync.stream());
-});
-
 /* -------------------------------------------------------------------------- */
 /*                                  JS FILES                                  */
 /* -------------------------------------------------------------------------- */
 
 //Copy js files from src/js to dist/js
-gulp.task('copy-js-files', function() {
-	gulp.src('src/js/app.js')
-		.pipe(plumber())
-		.pipe(gulp.dest('dist/js'))
-		.pipe(browserSync.stream());
+gulp.task('copy-js-files', function () {
+	gulp.src('src/js/app.js').pipe(plumber()).pipe(gulp.dest('dist/js')).pipe(browserSync.stream());
 });
 
 /* -------------------------------------------------------------------------- */
@@ -67,10 +40,8 @@ gulp.task('copy-js-files', function() {
 /* -------------------------------------------------------------------------- */
 
 // Copy html files to from src/ to dist/
-gulp.task('copy-html-files', function() {
-	gulp.src('src/*.html')
-		.pipe(gulp.dest('dist'))
-		.pipe(browserSync.stream());
+gulp.task('copy-html-files', function () {
+	gulp.src('src/*.html').pipe(gulp.dest('dist')).pipe(browserSync.stream());
 });
 
 /* -------------------------------------------------------------------------- */
@@ -78,10 +49,8 @@ gulp.task('copy-html-files', function() {
 /* -------------------------------------------------------------------------- */
 
 // copy image files from src/img to dist/img
-gulp.task('copy-img-files', function() {
-	gulp.src('src/img/*')
-		.pipe(gulp.dest('dist/img'))
-		.pipe(browserSync.stream());
+gulp.task('copy-img-files', function () {
+	gulp.src('src/images/*').pipe(gulp.dest('dist/images')).pipe(browserSync.stream());
 });
 
 /* -------------------------------------------------------------------------- */
@@ -89,13 +58,13 @@ gulp.task('copy-img-files', function() {
 /* -------------------------------------------------------------------------- */
 
 // copy, compile and optimize scss files from src/scss to css/app.css
-gulp.task('copy-scss-files', function() {
+gulp.task('copy-scss-files', function () {
 	gulp.src('src/scss/*.scss')
 		.pipe(plumber())
 		.pipe(sass())
 		.pipe(
 			purgecss({
-				content: ['src/**/*.html']
+				content: ['src/**/*.html'],
 			})
 		)
 		// .pipe(cssnano())
@@ -107,30 +76,21 @@ gulp.task('copy-scss-files', function() {
 /*                             WATCHING ALL FILES                             */
 /* -------------------------------------------------------------------------- */
 
-gulp.task('watch-all', function() {
+gulp.task('watch-all', function () {
 	browserSync.init({
-		server: './dist'
+		server: './dist',
 	});
 
-	gulp.watch('src/js/tailwind.config.js', ['copy-tailwind-dep']);
-	gulp.watch('src/css/tailwind.css', ['copy-tailwind-dep']);
+	gulp.watch('./tailwind.config.js', ['copy-tailwind-dep']);
+	gulp.watch('src/vendors/tailwind.css', ['copy-tailwind-dep']);
 	gulp.watch('src/*.html', ['copy-html-files']);
 	gulp.watch('src/scss/**/*.scss', ['copy-scss-files']);
 	gulp.watch('src/js/app.js', ['copy-js-files']);
-	gulp.watch('src/img/*', ['copy-img-files']);
+	gulp.watch('src/images/*', ['copy-img-files']);
 });
 
 /* -------------------------------------------------------------------------- */
 /*                                TASKS RUNNING                               */
 /* -------------------------------------------------------------------------- */
 
-gulp.task('default', [
-	'copy-jquery-dep',
-	'copy-tailwind-dep',
-	'copy-jquery-dep',
-	'copy-html-files',
-	'copy-scss-files',
-	'copy-js-files',
-	'copy-img-files',
-	'watch-all'
-]);
+gulp.task('default', ['copy-tailwind-dep', 'copy-html-files', 'copy-scss-files', 'copy-js-files', 'copy-img-files', 'watch-all']);

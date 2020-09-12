@@ -6,22 +6,23 @@ const postcss = require('gulp-postcss'); // Required for tailwind, also has bunc
 const tailwindcss = require('tailwindcss'); // CSS framework
 const cssnano = require('gulp-cssnano'); // Minify css files
 const purgecss = require('gulp-purgecss'); // Delete classes that are not used in html files
+const concat = require('gulp-concat'); // To combine all js or css files into one
 
 /* -------------------------------------------------------------------------- */
 /*                              CSS DEPENDENCIES                              */
 /* -------------------------------------------------------------------------- */
 
-// Copy tailwind dependency from node_modoules to src/css to dist/css
+// Copy only used tailwind dep css from src to dist
 gulp.task('copy-tailwind-dep', function () {
 	gulp.src('src/vendors/tailwind.css')
 		.pipe(plumber())
 		.pipe(postcss([tailwindcss('./tailwind.config.js'), require('autoprefixer')]))
-		// .pipe(
-		// 	purgecss({
-		// 		content: ['src/**/*.html']
-		// 	})
-		// )
-		// .pipe(cssnano())
+		.pipe(
+			purgecss({
+				content: ['src/**/*.html'],
+			})
+		)
+		.pipe(cssnano())
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
 });
@@ -32,7 +33,7 @@ gulp.task('copy-tailwind-dep', function () {
 
 //Copy js files from src/js to dist/js
 gulp.task('copy-js-files', function () {
-	gulp.src('src/js/app.js').pipe(plumber()).pipe(gulp.dest('dist/js')).pipe(browserSync.stream());
+	gulp.src('src/js/*.js').pipe(plumber()).pipe(concat('main.js')).pipe(gulp.dest('dist/js')).pipe(browserSync.stream());
 });
 
 /* -------------------------------------------------------------------------- */
@@ -59,15 +60,16 @@ gulp.task('copy-img-files', function () {
 
 // copy, compile and optimize scss files from src/scss to css/app.css
 gulp.task('copy-scss-files', function () {
-	gulp.src('src/scss/*.scss')
+	gulp.src('src/scss/app.scss')
 		.pipe(plumber())
 		.pipe(sass())
-		.pipe(
-			purgecss({
-				content: ['src/**/*.html'],
-			})
-		)
-		// .pipe(cssnano())
+		// .pipe(
+		// 	purgecss({
+		// 		content: ['src/**/*.html'],
+		// 	})
+		// )
+		.pipe(cssnano())
+		.pipe(concat('main.css'))
 		.pipe(gulp.dest('dist/css'))
 		.pipe(browserSync.stream());
 });
@@ -83,7 +85,7 @@ gulp.task('watch-all', function () {
 
 	gulp.watch('./tailwind.config.js', ['copy-tailwind-dep']);
 	gulp.watch('src/vendors/tailwind.css', ['copy-tailwind-dep']);
-	gulp.watch('src/*.html', ['copy-html-files']);
+	gulp.watch('src/*.html', ['copy-html-files', 'copy-tailwind-dep']);
 	gulp.watch('src/scss/**/*.scss', ['copy-scss-files']);
 	gulp.watch('src/js/app.js', ['copy-js-files']);
 	gulp.watch('src/images/*', ['copy-img-files']);

@@ -96,7 +96,7 @@ gulp.task('watch-all', function () {
 	gulp.watch('./tailwind-src.css', ['copy-tailwind-dep']);
 	gulp.watch('src/*.html', ['copy-html-files', 'copy-tailwind-css']);
 	gulp.watch('src/scss/**/*.scss', ['copy-scss-files']);
-	gulp.watch('src/js/app.js', ['copy-js-files']);
+	gulp.watch('src/js/*.js', ['copy-js-files']);
 	gulp.watch('src/images/*', ['copy-img-files']);
 });
 

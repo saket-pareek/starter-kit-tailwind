@@ -53,7 +53,11 @@ gulp.task('copy-tailwind-css', function () {
 
 //Copy js files from src/js to dist/js
 gulp.task('copy-js-files', function () {
-	gulp.src('src/js/*.js').pipe(plumber()).pipe(concat('main.js')).pipe(gulp.dest('dist/js')).pipe(browserSync.stream());
+	gulp.src(['src/js/common.js', 'src/js/index.js'])
+		.pipe(plumber())
+		.pipe(concat('main.js'))
+		.pipe(gulp.dest('dist/js'))
+		.pipe(browserSync.stream());
 });
 
 /* -------------------------------------------------------------------------- */
